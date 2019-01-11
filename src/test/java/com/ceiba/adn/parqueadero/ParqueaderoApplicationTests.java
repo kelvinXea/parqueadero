@@ -1,5 +1,7 @@
 package com.ceiba.adn.parqueadero;
 
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,11 @@ public class ParqueaderoApplicationTests {
 
 	@Test
 	public void contextLoads() {
+	}
+	
+	@Test
+	public void pruebaUnit() {
+		assertFalse(true);
 	}
 
 }
