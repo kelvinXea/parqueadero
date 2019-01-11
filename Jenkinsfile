@@ -28,6 +28,14 @@ pipeline {
 			  sh 'gradle clean'
  	}
  }
+ 
+  	stage('Compile') {
+		steps{
+			    echo "------------>compilar<------------"
+				sh 'gradle --b ./build.gradle compileJava'
+			}
+		}
+ 
  	stage('Unit Tests') {
  		steps{
 				echo "------------>Unit Tests<------------"
@@ -36,6 +44,7 @@ pipeline {
 				step( [ $class: 'JacocoPublisher' ] )
  		}
  	}
+ 	
  	
  //	stage('Integration Tests') {
  //		steps {
@@ -55,7 +64,7 @@ pipeline {
  	stage('Build') {
  		steps {
  				echo "------------>Build<------------"
- 				sh 'gradle --b ./build.gradle compileJava'
+ 				sh 'gradle --b ./build.gradle build -x test'
  		}
  	}
  	
