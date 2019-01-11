@@ -24,7 +24,7 @@ pipeline {
  	stage('Checkout') {
  		steps{
   			  echo "------------>Checkout<------------"
-			  checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GitHub_kelvinXea.hjs', url: 'https://github.com/kelvinXea/parqueadero.git']]])
+			  checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GitHub_kelvinXea', url: 'https://github.com/kelvinXea/parqueadero']]])
 			  sh 'gradle clean'
  	}
  }
@@ -77,6 +77,7 @@ pipeline {
  	
  	success {
  	echo 'This will run only if successful'
+ 	junit '**/build/test-results/test/*.xml'
  	}
  	failure {
  			echo 'This will run only if failed'
