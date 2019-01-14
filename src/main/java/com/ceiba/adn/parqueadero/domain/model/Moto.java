@@ -1,13 +1,22 @@
-package com.ceiba.adn.parqueadero.model.entity;
+package com.ceiba.adn.parqueadero.domain.model;
 
-import com.ceiba.adn.parqueadero.model.dto.enums.TipoVehiculo;
+import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 
 public class Moto extends Vehiculo {
 
 	private static final Integer valorHora = 500;
 	private static final Integer valorDia = 4000;
 	private Integer cc;
+
+	public Moto(String placa, Integer cc) {
+		this.placa = placa;
+		this.cc = cc;
+	}
 	
+	public Moto() {
+		
+	}
+
 	@Override
 	public TipoVehiculo getTipoVehiculo() {
 		return TipoVehiculo.MOTO;
@@ -30,7 +39,5 @@ public class Moto extends Vehiculo {
 	public void setCc(Integer cc) {
 		this.cc = cc;
 	}
-	
-	
 
 }

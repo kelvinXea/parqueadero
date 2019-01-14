@@ -1,4 +1,4 @@
-package com.ceiba.adn.parqueadero.model.entity;
+package com.ceiba.adn.parqueadero.domain.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.ceiba.adn.parqueadero.model.dto.enums.TipoVehiculo;
+import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 
 @Entity
 @Table

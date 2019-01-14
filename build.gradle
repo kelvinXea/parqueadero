@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+
+	compile('org.modelmapper:modelmapper:1.1.0')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'

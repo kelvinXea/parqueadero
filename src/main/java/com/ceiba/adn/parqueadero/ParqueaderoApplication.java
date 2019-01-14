@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-import com.ceiba.adn.parqueadero.repository.FacturaRepository;
+import com.ceiba.adn.parqueadero.configuration.MensajeConfiguration;
+import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
+import com.ceiba.adn.parqueadero.domain.repository.FacturaRepository;
 
 @SpringBootApplication
 public class ParqueaderoApplication {
@@ -22,6 +24,7 @@ public class ParqueaderoApplication {
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
+
 	    
 	}
 
