@@ -1,6 +1,8 @@
 package com.ceiba.adn.parqueadero.domain.model.dto;
 
 
+import java.util.Date;
+
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 
 public class VehiculoDTO {	
@@ -10,6 +12,8 @@ public class VehiculoDTO {
 	private TipoVehiculo tipoVehiculo;
 	
 	private Integer cc;
+	
+	private Date fechaEntrada;
 
 	public String getPlaca() {
 		return placa;
@@ -34,7 +38,16 @@ public class VehiculoDTO {
 	public void setCc(Integer cc) {
 		this.cc = cc;
 	}
-	
+
+	public Date getFechaEntrada() {
+		return fechaEntrada;
+	}
+
+	public void setFechaEntrada(Date fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+
+
 	
 	
 	

@@ -7,6 +7,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,9 +34,11 @@ public class VehiculoController {
 	@Autowired
 	MensajeConfiguration mensajeConfiguration;
 	
+	ModelMapper modelMapper = new ModelMapper();
+	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/vehiculo")
-	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
-		ModelMapper modelMapper = new ModelMapper(); 
+	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) { 
 		Class<?> clase = vehiculoDTO.getTipoVehiculo() == TipoVehiculo.CARRO ? Carro.class : Moto.class;
 		Vehiculo vehiculo = (Vehiculo) modelMapper.map(vehiculoDTO, clase);
 		
@@ -47,9 +50,9 @@ public class VehiculoController {
 		}
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/vehiculo")
-	public ResponseEntity<List<VehiculoDTO>> consultarVehiculos() {
-		ModelMapper modelMapper = new ModelMapper(); 
+	public ResponseEntity<List<VehiculoDTO>> consultarVehiculos() { 
 		java.lang.reflect.Type listType = new TypeToken<List<VehiculoDTO>>() {}.getType();
 		List<VehiculoDTO> lista = modelMapper.map(parqueaderoService.obtenerVehiculosEnElParqueadero(), listType);
 
@@ -57,9 +60,11 @@ public class VehiculoController {
 
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PutMapping("/vehiculo")
-	public ResponseEntity<Factura> registrarSalidaVehiculo(@RequestBody VehiculoDTO vehiculoDTO){
-		return new ResponseEntity<Factura>(parqueaderoService.registrarSalidaDeVehiculo(vehiculoDTO.getPlaca()), HttpStatus.OK);
+	public ResponseEntity<FacturaDTO> registrarSalidaVehiculo(@RequestBody VehiculoDTO vehiculoDTO){
+		FacturaDTO facturaDto = modelMapper.map(parqueaderoService.registrarSalidaDeVehiculo(vehiculoDTO.getPlaca()), FacturaDTO.class);
+		return new ResponseEntity<FacturaDTO>(facturaDto, HttpStatus.OK);
 	
 	}
 

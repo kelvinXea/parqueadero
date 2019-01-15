@@ -51,9 +51,9 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 
 	@Override
 	public Factura generarFacturaSalida(Factura factura) {
-	    String sDate1="19/01/2019";  
+	    String sDate1="19/01/2019 10:05:05";  
 	    try {
-			Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+			Date date1=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(sDate1);
 			factura.setFechaSalida(date1);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -79,17 +79,17 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 			
 		}
 		
-		long segundos = (factura.getFechaSalida().getTime() - factura.getFechaEntrada().getTime()) / 1000;
-		int horas = (int) (segundos / 3600); 
-		int dias = horas / 24;
-		int horasRestantes = ( (horas / 24) - dias );
-		
-		int pagoTotal = dias * vehiculo.getValorDia();
+		float segundos = (factura.getFechaSalida().getTime() - factura.getFechaEntrada().getTime()) / 1000;
+		float horas = (segundos / 3600); 
+		float dias = horas / 24;
+		float horasRestantes = (float) (( dias - (int)dias ) * 24);
+		float minutosRestantes = (horasRestantes - (int) horasRestantes ) * 60;
+		int pagoTotal =  ((int) dias * vehiculo.getValorDia());
 		
 		if(horasRestantes >= 9) {
 			pagoTotal = pagoTotal + vehiculo.getValorDia();
 		}else {
-			pagoTotal = pagoTotal + (horasRestantes * vehiculo.getValorHora());
+			pagoTotal = pagoTotal + ((int)horasRestantes * vehiculo.getValorHora());
 		}
 		
 		if(vehiculo.getTipoVehiculo() == TipoVehiculo.MOTO && vehiculo.getCc() > 500) {
