@@ -1,5 +1,6 @@
 package com.ceiba.adn.parqueadero.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 				? new Factura(vehiculo.getPlaca(), new Date(), vehiculo.getTipoVehiculo(), vehiculo.getCc())
 				: new Factura(vehiculo.getPlaca(), new Date(), vehiculo.getTipoVehiculo());
 
+				
 		facturaRepository.save(factura);
 	}
 

@@ -31,11 +31,11 @@ public class Factura implements Serializable{
 	private String placa;
 	
 	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaEntrada;
 	
 	@Column
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaSalida;
 	
 	@Column(nullable = false)
