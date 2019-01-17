@@ -25,6 +25,7 @@ import com.ceiba.adn.parqueadero.domain.model.dto.VehiculoDTO;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.service.ParqueaderoService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class VehiculoController {
 	
@@ -36,7 +37,6 @@ public class VehiculoController {
 	
 	ModelMapper modelMapper = new ModelMapper();
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/vehiculo")
 	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) { 
 		Class<?> clase = vehiculoDTO.getTipoVehiculo() == TipoVehiculo.CARRO ? Carro.class : Moto.class;
@@ -50,7 +50,7 @@ public class VehiculoController {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+	
 	@GetMapping("/vehiculo")
 	public ResponseEntity<List<VehiculoDTO>> consultarVehiculos() { 
 		java.lang.reflect.Type listType = new TypeToken<List<VehiculoDTO>>() {}.getType();
@@ -60,7 +60,7 @@ public class VehiculoController {
 
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+
 	@PutMapping("/vehiculo")
 	public ResponseEntity<FacturaDTO> registrarSalidaVehiculo(@RequestBody VehiculoDTO vehiculoDTO){
 		FacturaDTO facturaDto = modelMapper.map(parqueaderoService.registrarSalidaDeVehiculo(vehiculoDTO.getPlaca()), FacturaDTO.class);
