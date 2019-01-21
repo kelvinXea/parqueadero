@@ -1,7 +1,5 @@
 package com.ceiba.adn.parqueadero.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import com.ceiba.adn.parqueadero.configuration.MensajeConfiguration;
 import com.ceiba.adn.parqueadero.domain.entity.Factura;
 import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
-import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.domain.repository.FacturaRepository;
 import com.ceiba.adn.parqueadero.service.ParqueaderoHelper;
 import com.ceiba.adn.parqueadero.service.ParqueaderoService;
@@ -29,9 +26,9 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 	private MensajeConfiguration mensajeConfiguration;
 
 	@Override
-	public void registrarIngresoVehiculo(Vehiculo vehiculo) {
+	public Factura registrarIngresoVehiculo(Vehiculo vehiculo) {
 
-		if (parqueaderoHelper.ExisteVehiculoEnParqueadero(vehiculo.getPlaca()))
+		if (parqueaderoHelper.existeVehiculoEnParqueadero(vehiculo.getPlaca()))
 			throw new ParqueaderoException(mensajeConfiguration.getVehiculoEnParqueadero());
 
 		if (!parqueaderoHelper.puedeEntrarEnElParqueadero(vehiculo.getPlaca()))
@@ -39,13 +36,10 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 
 		if (parqueaderoHelper.parqueaderoEstaLleno(vehiculo.getTipoVehiculo()))
 			throw new ParqueaderoException(mensajeConfiguration.getParqueaderoLleno());
-
-		Factura factura = vehiculo.getTipoVehiculo() == TipoVehiculo.MOTO
-				? new Factura(vehiculo.getPlaca(), new Date(), vehiculo.getTipoVehiculo(), vehiculo.getCc())
-				: new Factura(vehiculo.getPlaca(), new Date(), vehiculo.getTipoVehiculo());
-
+		
+		Factura factura = parqueaderoHelper.generarFacturaEntrada(vehiculo);
 				
-		facturaRepository.save(factura);
+		return facturaRepository.save(factura);
 	}
 
 	@Override
@@ -55,7 +49,7 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 
 	@Override
 	public Factura registrarSalidaDeVehiculo(String placa) {
-		Factura factura = facturaRepository.findByIsCompletoAndPlaca(false, placa);
+		Factura factura = facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, placa);
 		
 		factura = parqueaderoHelper.generarFacturaSalida(factura);
 		

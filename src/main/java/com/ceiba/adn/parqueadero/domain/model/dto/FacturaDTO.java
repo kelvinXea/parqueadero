@@ -1,5 +1,6 @@
 package com.ceiba.adn.parqueadero.domain.model.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -10,9 +11,9 @@ public class FacturaDTO {
 	
 	private String placa;
 	
-	private Date fechaEntrada;
+	private LocalDateTime fechaEntrada;
 	
-	private Date fechaSalida;
+	private LocalDateTime fechaSalida;
 	
 	private Integer cc;
 	
@@ -28,19 +29,19 @@ public class FacturaDTO {
 		this.placa = placa;
 	}
 
-	public Date getFechaEntrada() {
+	public LocalDateTime getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(Date fechaEntrada) {
+	public void setFechaEntrada(LocalDateTime fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
-	public Date getFechaSalida() {
+	public LocalDateTime getFechaSalida() {
 		return fechaSalida;
 	}
 
-	public void setFechaSalida(Date fechaSalida) {
+	public void setFechaSalida(LocalDateTime fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 

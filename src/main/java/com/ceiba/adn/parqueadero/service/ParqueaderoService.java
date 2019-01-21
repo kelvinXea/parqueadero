@@ -7,7 +7,7 @@ import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
 
 public interface ParqueaderoService {
 	
-	public void registrarIngresoVehiculo(Vehiculo vehiculo);
+	public Factura registrarIngresoVehiculo(Vehiculo vehiculo);
 	public List<Factura> obtenerVehiculosEnElParqueadero();
 	public Factura registrarSalidaDeVehiculo(String placa);
 

@@ -1,15 +1,19 @@
 package com.ceiba.adn.parqueadero.domain.entity;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.ColumnTransformer;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 
@@ -26,18 +30,21 @@ public class Factura implements Serializable{
     @GeneratedValue
     @Column(name = "id", nullable = false)
 	private Long id;
-	
-	@Column(length = 6, nullable = false)
+	// TODO implementar mensajes en los properties
+	@Size(max = 10, message = "La placa no puede ser mayor a 10 caracteres")
+	@Size(min = 2, message = "La placa no puede ser menor a 2 caracteres")
+	@Column(nullable = false)
 	private String placa;
 	
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaEntrada;
+	@Convert(converter = LocalDateTimeConverter.class)
+	private LocalDateTime fechaEntrada;
 	
 	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaSalida;
+	@Convert(converter = LocalDateTimeConverter.class)
+	private LocalDateTime fechaSalida;
 	
+	@Max(value = 1500, message = "El cilindraje no puede ser mayor a 1500")
 	@Column(nullable = false)
 	private Integer cc;
 	
@@ -55,7 +62,7 @@ public class Factura implements Serializable{
 
 	}
 
-	public Factura(String placa, Date fechaEntrada, TipoVehiculo tipoVehiculo) {
+	public Factura(String placa, LocalDateTime fechaEntrada, TipoVehiculo tipoVehiculo) {
 		this.placa = placa;
 		this.fechaEntrada = fechaEntrada;
 		this.tipoVehiculo = tipoVehiculo;
@@ -63,13 +70,13 @@ public class Factura implements Serializable{
 		this.isCompleto = false;
 	}
 	
-	public Factura(String placa, Date fechaEntrada, TipoVehiculo tipoVehiculo, Integer cc) {
+	public Factura(String placa, LocalDateTime fechaEntrada, TipoVehiculo tipoVehiculo, Integer cc) {
 		this.placa = placa;
 		this.fechaEntrada = fechaEntrada;
 		this.tipoVehiculo = tipoVehiculo;
 		this.isCompleto = false;
-		if(this.tipoVehiculo == TipoVehiculo.MOTO)
-		this.cc = cc;
+		if (this.tipoVehiculo == TipoVehiculo.MOTO)
+			this.cc = cc;
 	}
 	
 	
@@ -90,19 +97,19 @@ public class Factura implements Serializable{
 		this.placa = placa;
 	}
 
-	public Date getFechaEntrada() {
+	public LocalDateTime getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(Date fechaEntrada) {
+	public void setFechaEntrada(LocalDateTime fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
-	public Date getFechaSalida() {
+	public LocalDateTime getFechaSalida() {
 		return fechaSalida;
 	}
 
-	public void setFechaSalida(Date fechaSalida) {
+	public void setFechaSalida(LocalDateTime fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 

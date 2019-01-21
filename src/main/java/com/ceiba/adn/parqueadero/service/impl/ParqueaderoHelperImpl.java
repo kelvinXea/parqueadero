@@ -1,12 +1,10 @@
 package com.ceiba.adn.parqueadero.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Component;
 
 import com.ceiba.adn.parqueadero.configuration.ParqueaderoConfiguration;
@@ -18,29 +16,31 @@ import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.domain.repository.FacturaRepository;
 import com.ceiba.adn.parqueadero.service.ParqueaderoHelper;
-
-import net.bytebuddy.implementation.bytecode.Throw;
+import com.ceiba.adn.parqueadero.utils.LocalDateTimeWrapper;
 
 @Component
 public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 	
 	@Autowired
-	FacturaRepository facturaRepository;
+	private FacturaRepository facturaRepository;
 	
 	@Autowired
-	ParqueaderoConfiguration parqueaderoConfiguration;
+	private ParqueaderoConfiguration parqueaderoConfiguration;
+	
+	@Autowired
+	private LocalDateTimeWrapper localDateTimeWrapper;
 
 	@Override
-	public boolean ExisteVehiculoEnParqueadero(String placa) {
-		return facturaRepository.findByIsCompletoAndPlaca(false, placa) != null;
+	public boolean existeVehiculoEnParqueadero(String placa) {
+		return facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, placa) != null;
 	}
 
 	@Override
 	public boolean puedeEntrarEnElParqueadero(String placa) {
-		Calendar fechaHoy = Calendar.getInstance(); 
-		fechaHoy.setTime(new Date());
-		return placa.toLowerCase().toCharArray()[0] == 'a' ? !(fechaHoy.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || 
-				fechaHoy.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ) : true;
+		LocalDateTime ldt = localDateTimeWrapper.now();
+
+		return placa.toLowerCase().toCharArray()[0] == 'a' ? !(ldt.getDayOfWeek() == DayOfWeek.SUNDAY || 
+				ldt.getDayOfWeek() == DayOfWeek.MONDAY ) : true;
 	}
 
 	@Override
@@ -48,17 +48,36 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 		return facturaRepository.countByTipoVehiculoAndIsCompleto(tipoVehiculo, false) ==
 				parqueaderoConfiguration.getMaxCantidadVehiculo(tipoVehiculo);
 	}
+	
+	@Override
+	public Factura generarFacturaEntrada(Vehiculo vehiculo) {
+
+		switch (vehiculo.getTipoVehiculo()) {
+		case CARRO:
+			
+			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(),vehiculo.getTipoVehiculo());
+			
+		case MOTO:
+			
+			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(),vehiculo.getTipoVehiculo(), vehiculo.getCc());
+
+		default:
+			//TODO agregar mensaje al property
+			throw new ParqueaderoException("El tipo de este vehiculo no es soportado");
+		}
+
+	}
 
 	@Override
 	public Factura generarFacturaSalida(Factura factura) {
-	    String sDate1="19/01/2019 10:05:05";  
-	    try {
-			Date date1=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(sDate1);
-			factura.setFechaSalida(date1);
-		} catch (ParseException e) {
+	    //String sDate1="19/01/2019 10:05:05";  
+	   // try {
+			//Date date1=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(sDate1);
+			factura.setFechaSalida(localDateTimeWrapper.now());
+		//} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
+		//	e.printStackTrace();
+		//}  
 		
 		
 		Vehiculo vehiculo;
@@ -74,17 +93,24 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 			break;
 			
 		default:
-			
+			//TODO
 			throw new ParqueaderoException("acomodar");
 			
 		}
 		
-		float segundos = (factura.getFechaSalida().getTime() - factura.getFechaEntrada().getTime()) / 1000;
+		float segundos = ChronoUnit.SECONDS.between(factura.getFechaEntrada(), factura.getFechaSalida());
 		float horas = (segundos / 3600); 
 		float dias = horas / 24;
 		float horasRestantes = (float) (( dias - (int)dias ) * 24);
+		//TODO
 		float minutosRestantes = (horasRestantes - (int) horasRestantes ) * 60;
 		int pagoTotal =  ((int) dias * vehiculo.getValorDia());
+		
+		// regla si lleva mas o igual a 10 min en el parqueadero se considera una hora a pagar
+		
+		if((int)minutosRestantes >= 10) {
+			horasRestantes += 1;
+		}
 		
 		if(horasRestantes >= 9) {
 			pagoTotal = pagoTotal + vehiculo.getValorDia();
@@ -102,5 +128,7 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 		
 		return factura;
 	}
+
+
 
 }
