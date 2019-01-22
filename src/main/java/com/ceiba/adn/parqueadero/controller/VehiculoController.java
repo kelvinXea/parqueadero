@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ceiba.adn.parqueadero.configuration.MensajeConfiguration;
-import com.ceiba.adn.parqueadero.domain.entity.Factura;
-import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
 import com.ceiba.adn.parqueadero.domain.model.Carro;
 import com.ceiba.adn.parqueadero.domain.model.Moto;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
@@ -41,13 +39,8 @@ public class VehiculoController {
 	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) { 
 		Class<?> clase = vehiculoDTO.getTipoVehiculo() == TipoVehiculo.CARRO ? Carro.class : Moto.class;
 		Vehiculo vehiculo = (Vehiculo) modelMapper.map(vehiculoDTO, clase);
-		
-		try {
 			parqueaderoService.registrarIngresoVehiculo(vehiculo);
 			return ResponseEntity.ok().body('"'+mensajeConfiguration.getVehiculoRegistrado()+'"');
-		}catch(ParqueaderoException pe) {
-			return ResponseEntity.badRequest().body('"'+pe.getMessage()+'"');
-		}
 	}
 	
 	

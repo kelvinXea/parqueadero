@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -35,6 +36,10 @@ public class Factura implements Serializable{
 	@Size(min = 2, message = "La placa no puede ser menor a 2 caracteres")
 	@Column(nullable = false)
 	private String placa;
+	
+    @Version
+    @Column(nullable = false)
+    private Long version;
 	
 	@Column(nullable = false)
 	@Convert(converter = LocalDateTimeConverter.class)

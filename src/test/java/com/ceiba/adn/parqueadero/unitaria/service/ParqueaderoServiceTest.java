@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,7 +82,7 @@ public class ParqueaderoServiceTest {
 	public void elVehiculoSeEncuentraEnElParqueaderoExceptionTest() {
 		Vehiculo vehiculo = new Carro(PLACA_SIN_LETRA_A);
 		Factura factura = new FacturaTestDataBuilder().withPlaca(PLACA_SIN_LETRA_A).withIsCompleto(false).build();
-		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_SIN_LETRA_A)).thenReturn(factura);
+		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_SIN_LETRA_A)).thenReturn(Optional.of(factura));
 		try {
 			parqueaderoService.registrarIngresoVehiculo(vehiculo);
 			fail();

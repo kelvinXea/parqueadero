@@ -32,7 +32,7 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 
 	@Override
 	public boolean existeVehiculoEnParqueadero(String placa) {
-		return facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, placa) != null;
+		return facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, placa).isPresent();
 	}
 
 	@Override

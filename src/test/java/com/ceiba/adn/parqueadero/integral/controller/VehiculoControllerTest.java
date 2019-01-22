@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
+import java.util.Optional;
 
 import com.ceiba.adn.parqueadero.ParqueaderoApplication;
 import com.ceiba.adn.parqueadero.builder.FacturaTestDataBuilder;
@@ -58,9 +59,9 @@ public class VehiculoControllerTest {
 		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vehiculoDto)).contentType(MediaType.APPLICATION_JSON));
 
-		Factura factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false, vehiculoDto.getPlaca());
+		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false, vehiculoDto.getPlaca());
 
-		assertEquals(vehiculoDto.getPlaca(), factura.getPlaca());
+		assertEquals(vehiculoDto.getPlaca(), factura.get().getPlaca());
 
 	}
 
@@ -87,9 +88,9 @@ public class VehiculoControllerTest {
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
-		Factura facturaFinal = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(true, factura.getPlaca());
+		Optional<Factura> facturaFinal = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(true, factura.getPlaca());
 
-		assert (facturaFinal.isCompleto());
+		assert (facturaFinal.get().isCompleto());
 
 	}
 
