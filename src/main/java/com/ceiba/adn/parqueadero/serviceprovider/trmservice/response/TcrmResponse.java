@@ -16,6 +16,7 @@ public class TcrmResponse extends Tcrm implements java.io.Serializable {
 	private java.lang.Boolean success;
 
 	public TcrmResponse() {
+		// Vacio
 	}
 
 	/**
@@ -52,51 +53,6 @@ public class TcrmResponse extends Tcrm implements java.io.Serializable {
 	 */
 	public void setSuccess(java.lang.Boolean success) {
 		this.success = success;
-	}
-
-	private java.lang.Object __equalsCalc = null;
-
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (obj == null)
-			return false;
-
-		if (!(obj instanceof TcrmResponse))
-			return false;
-
-		TcrmResponse other = (TcrmResponse) obj;
-
-		if (this == obj)
-			return true;
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = super.equals(obj)
-				&& ((this.message == null && other.getMessage() == null)
-						|| (this.message != null && this.message.equals(other.getMessage())))
-				&& ((this.success == null && other.getSuccess() == null)
-						|| (this.success != null && this.success.equals(other.getSuccess())));
-		__equalsCalc = null;
-		return _equals;
-	}
-
-	private boolean __hashCodeCalc = false;
-
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = super.hashCode();
-		if (getMessage() != null) {
-			_hashCode += getMessage().hashCode();
-		}
-		if (getSuccess() != null) {
-			_hashCode += getSuccess().hashCode();
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
 	}
 
 	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
