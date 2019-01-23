@@ -23,7 +23,7 @@ import com.ceiba.adn.parqueadero.domain.model.dto.VehiculoDTO;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.service.ParqueaderoService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4201"})
 @RestController
 public class VehiculoController {
 	

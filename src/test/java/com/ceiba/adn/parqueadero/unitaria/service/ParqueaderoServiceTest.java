@@ -3,7 +3,6 @@ package com.ceiba.adn.parqueadero.unitaria.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
-
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Optional;
@@ -89,7 +88,7 @@ public class ParqueaderoServiceTest {
 		} catch (ParqueaderoException e) {
 			assertEquals(mensajeConfiguration.getVehiculoEnParqueadero(), e.getMessage());
 		}
-	}
+	} 
 	
 	@Test
 	public void elParqueaderoEstaLlenoExceptionTest() {
