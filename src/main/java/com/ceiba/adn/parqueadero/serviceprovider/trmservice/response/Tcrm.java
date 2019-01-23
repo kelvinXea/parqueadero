@@ -20,10 +20,8 @@ public class Tcrm implements java.io.Serializable {
 	private java.util.Calendar validityTo;
 
 	private java.lang.Float value;
-
-	public Tcrm() {
-
-	}
+	
+	private static final String XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
 
 	/**
@@ -134,10 +132,6 @@ public class Tcrm implements java.io.Serializable {
 		this.value = value;
 	}
 
-	private java.lang.Object __equalsCalc = null;
-
-	private boolean __hashCodeCalc = false;
-
 	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(Tcrm.class,
 			true);
 
@@ -147,42 +141,42 @@ public class Tcrm implements java.io.Serializable {
 		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("displayToUser");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "displayToUser"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "boolean"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 		elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("id");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "id"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "long"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 		elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("unit");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "unit"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "string"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 		elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("validityFrom");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "validityFrom"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "dateTime"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "dateTime"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 		elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("validityTo");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "validityTo"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "dateTime"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "dateTime"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 		elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("value");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "value"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "float"));
+		elemField.setXmlType(new javax.xml.namespace.QName(XML_SCHEMA, "float"));
 		elemField.setMinOccurs(0);
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);

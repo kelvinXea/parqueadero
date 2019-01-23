@@ -1,68 +1,47 @@
 package com.ceiba.adn.parqueadero.serviceprovider.trmservice.service;
 
 import java.rmi.RemoteException;
+import java.util.Calendar;
+
+import javax.xml.rpc.ServiceException;
 
 import com.ceiba.adn.parqueadero.serviceprovider.trmservice.response.TcrmResponse;
 
 public class TCRMServicesInterfaceProxy implements TCRMServicesInterface
 {
-	private String _endpoint = null;
+	private String endpoint = null;
 	private TCRMServicesInterface tCRMServicesInterface = null;
-
-	public TCRMServicesInterfaceProxy()
-	{
-		_initTCRMServicesInterfaceProxy();
-	}
 
 	public TCRMServicesInterfaceProxy(String endpoint)
 	{
-		_endpoint = endpoint;
-		_initTCRMServicesInterfaceProxy();
+		this.endpoint = endpoint;
+		initTCRMServicesInterfaceProxy();
 	}
 
-	private void _initTCRMServicesInterfaceProxy()
+	private void initTCRMServicesInterfaceProxy()
 	{
 		try
 		{
 			tCRMServicesInterface = (new TCRMServicesWebServiceLocator()) .getTCRMServicesWebServicePort();
 			if (tCRMServicesInterface != null)
 			{
-				if (_endpoint != null)
-					((javax.xml.rpc.Stub) tCRMServicesInterface)._setProperty( "javax.xml.rpc.service.endpoint.address",_endpoint);
+				if (endpoint != null)
+					((javax.xml.rpc.Stub) tCRMServicesInterface)._setProperty( "javax.xml.rpc.service.endpoint.address",endpoint);
 				else
-					_endpoint = (String) ((javax.xml.rpc.Stub) tCRMServicesInterface)._getProperty("javax.xml.rpc.service.endpoint.address");
+					endpoint = (String) ((javax.xml.rpc.Stub) tCRMServicesInterface)._getProperty("javax.xml.rpc.service.endpoint.address");
 			}
 
 		}
-		catch (javax.xml.rpc.ServiceException serviceException)
+		catch (ServiceException serviceException)
 		{
+			serviceException.printStackTrace();
 		}
 	}
 
-	public String getEndpoint()
-	{
-		return _endpoint;
-	}
-
-	public void setEndpoint(String endpoint)
-	{
-		_endpoint = endpoint;
-		if (tCRMServicesInterface != null)
-			((javax.xml.rpc.Stub) tCRMServicesInterface)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
-
-	}
-
-	public TCRMServicesInterface getTCRMServicesInterface()
-	{
+	@Override
+	public TcrmResponse queryTCRM(Calendar tcrmQueryAssociatedDate) throws RemoteException {
 		if (tCRMServicesInterface == null)
-			_initTCRMServicesInterfaceProxy();
-		return tCRMServicesInterface;
-	}
-
-	public TcrmResponse queryTCRM( java.util.Calendar tcrmQueryAssociatedDate) throws RemoteException
-	{
-		if (tCRMServicesInterface == null)
-			_initTCRMServicesInterfaceProxy();
+			initTCRMServicesInterfaceProxy();
 		return tCRMServicesInterface.queryTCRM(tcrmQueryAssociatedDate);
 	}
 

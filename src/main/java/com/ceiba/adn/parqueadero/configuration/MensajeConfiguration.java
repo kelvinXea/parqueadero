@@ -7,17 +7,17 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:mensajes.properties")
 public class MensajeConfiguration {
-	
-	@Value( "${parqueadero.vehiculoEnParqueadero}" )
+
+	@Value("${parqueadero.vehiculoEnParqueadero}")
 	private String vehiculoEnParqueadero;
-	
-	@Value( "${parqueadero.vehiculoNoPuedeEntrar}" )
+
+	@Value("${parqueadero.vehiculoNoPuedeEntrar}")
 	private String vehiculoNoPuedeEntrar;
-	
-	@Value( "${parqueadero.parqueaderoLleno}" )
+
+	@Value("${parqueadero.parqueaderoLleno}")
 	private String parqueaderoLleno;
-	
-	@Value( "${parqueadero.vehiculoRegistrado}" )
+
+	@Value("${parqueadero.vehiculoRegistrado}")
 	private String vehiculoRegistrado;
 
 	public String getVehiculoEnParqueadero() {
@@ -31,13 +31,9 @@ public class MensajeConfiguration {
 	public String getParqueaderoLleno() {
 		return parqueaderoLleno;
 	}
-	
+
 	public String getVehiculoRegistrado() {
 		return vehiculoRegistrado;
 	}
-	
-	
-	
-	
 
 }

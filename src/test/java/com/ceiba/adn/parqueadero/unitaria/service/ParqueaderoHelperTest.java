@@ -2,8 +2,6 @@ package com.ceiba.adn.parqueadero.unitaria.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -20,9 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ceiba.adn.parqueadero.builder.FacturaTestDataBuilder;
-import com.ceiba.adn.parqueadero.configuration.ParqueaderoConfiguration;
 import com.ceiba.adn.parqueadero.domain.entity.Factura;
-import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
 import com.ceiba.adn.parqueadero.domain.model.Carro;
 import com.ceiba.adn.parqueadero.domain.model.Moto;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;

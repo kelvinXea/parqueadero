@@ -18,3 +18,4 @@ public interface FacturaRepository extends CrudRepository<Factura, Long>{
 	
 	
 }
+	

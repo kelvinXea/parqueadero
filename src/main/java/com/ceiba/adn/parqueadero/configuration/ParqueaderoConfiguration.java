@@ -9,25 +9,25 @@ import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 @Configuration
 @PropertySource("classpath:parqueadero.properties")
 public class ParqueaderoConfiguration {
-	
-	@Value( "${maxCantidadCarros}" )	
+
+	@Value("${maxCantidadCarros}")
 	private Integer maxCantidadCarros;
-	
-	@Value( "${maxCantidadMotos}" )
+
+	@Value("${maxCantidadMotos}")
 	private Integer maxCantidadMotos;
-	
+
 	public Integer getMaxCantidadVehiculo(TipoVehiculo tipoVehiculo) {
 		switch (tipoVehiculo) {
 		case CARRO:
-			
+
 			return maxCantidadCarros;
-			
+
 		case MOTO:
-			
+
 			return maxCantidadMotos;
-			
+
 		default:
-			
+
 			return null;
 		}
 	}

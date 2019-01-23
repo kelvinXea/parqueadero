@@ -1,7 +1,6 @@
 package com.ceiba.adn.parqueadero.serviceprovider.trmservice.service;
 
 import java.net.URL;
-import java.rmi.Remote;
 
 import javax.xml.rpc.ServiceException;
 
@@ -11,25 +10,22 @@ public class TCRMServicesWebServiceLocator extends Service implements TCRMServic
 
 	private static final long serialVersionUID = 1L;
 
-	public TCRMServicesWebServiceLocator() {
-	}
-
-	private String TCRMServicesWebServicePort_address = "http://AlexChacon:8080/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService";
+	private String tCRMServicesWebServicePortAddress = "http://AlexChacon:8080/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService";
 
 	public String getTCRMServicesWebServicePortAddress() {
-		return TCRMServicesWebServicePort_address;
+		return tCRMServicesWebServicePortAddress;
 	}
 
-	private String TCRMServicesWebServicePortWSDDServiceName = "TCRMServicesWebServicePort";
+	private String tCRMServicesWebServicePortWSDDServiceName = "TCRMServicesWebServicePort";
 
 	public String getTCRMServicesWebServicePortWSDDServiceName() {
-		return TCRMServicesWebServicePortWSDDServiceName;
+		return tCRMServicesWebServicePortWSDDServiceName;
 	}
 
 	public TCRMServicesInterface getTCRMServicesWebServicePort() throws ServiceException {
 		URL endpoint;
 		try {
-			endpoint = new URL(TCRMServicesWebServicePort_address);
+			endpoint = new URL(tCRMServicesWebServicePortAddress);
 		} catch (java.net.MalformedURLException e) {
 			throw new javax.xml.rpc.ServiceException(e);
 		}
@@ -38,14 +34,13 @@ public class TCRMServicesWebServiceLocator extends Service implements TCRMServic
 
 	public TCRMServicesInterface getTCRMServicesWebServicePort(URL portAddress) throws ServiceException {
 		try {
-			TCRMServicesWebServiceSoapBindingStub _stub = new TCRMServicesWebServiceSoapBindingStub(portAddress, this);
-			_stub.setPortName(getTCRMServicesWebServicePortWSDDServiceName());
-			return _stub;
+			TCRMServicesWebServiceSoapBindingStub stub = new TCRMServicesWebServiceSoapBindingStub(portAddress, this);
+			stub.setPortName(getTCRMServicesWebServicePortWSDDServiceName());
+			return stub;
 		} catch (org.apache.axis.AxisFault e) {
 			return null;
 		}
 	}
 
-	private java.util.HashSet<javax.xml.namespace.QName> ports = null;
 
 }

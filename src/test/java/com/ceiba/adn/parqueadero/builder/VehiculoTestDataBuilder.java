@@ -2,8 +2,6 @@ package com.ceiba.adn.parqueadero.builder;
 
 import java.time.LocalDateTime;
 
-import com.ceiba.adn.parqueadero.domain.model.Carro;
-import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
 import com.ceiba.adn.parqueadero.domain.model.dto.VehiculoDTO;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 

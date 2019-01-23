@@ -15,10 +15,6 @@ public class TcrmResponse extends Tcrm implements java.io.Serializable {
 
 	private java.lang.Boolean success;
 
-	public TcrmResponse() {
-		// Vacio
-	}
-
 	/**
 	 * Gets the message value for this TcrmResponse.
 	 * 

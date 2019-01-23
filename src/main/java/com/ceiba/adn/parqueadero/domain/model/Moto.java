@@ -4,8 +4,8 @@ import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 
 public class Moto extends Vehiculo {
 
-	private static final Integer valorHora = 500;
-	private static final Integer valorDia = 4000;
+	private static final Integer VALOR_HORA = 500;
+	private static final Integer VALOR_DIA = 4000;
 	private Integer cc;
 
 	public Moto(String placa, Integer cc) {
@@ -24,12 +24,12 @@ public class Moto extends Vehiculo {
 
 	@Override
 	public Integer getValorHora() {
-		return valorHora;
+		return VALOR_HORA;
 	}
 
 	@Override
 	public Integer getValorDia() {
-		return valorDia;
+		return VALOR_DIA;
 	}
 
 	public Integer getCc() {
