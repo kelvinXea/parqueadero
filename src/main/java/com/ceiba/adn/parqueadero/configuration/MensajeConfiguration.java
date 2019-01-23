@@ -19,6 +19,12 @@ public class MensajeConfiguration {
 
 	@Value("${parqueadero.vehiculoRegistrado}")
 	private String vehiculoRegistrado;
+	
+	@Value("${parqueadero.vehiculoNoEsta}")
+	private String vehiculoNoEsta;
+	
+	@Value("${parqueadero.vehiculoNoSoportado}")
+	private String vehiculoNoSoportado;
 
 	public String getVehiculoEnParqueadero() {
 		return vehiculoEnParqueadero;
@@ -35,5 +41,14 @@ public class MensajeConfiguration {
 	public String getVehiculoRegistrado() {
 		return vehiculoRegistrado;
 	}
+
+	public String getVehiculoNoEsta() {
+		return vehiculoNoEsta;
+	}
+
+	public String getVehiculoNoSoportado() {
+		return vehiculoNoSoportado;
+	}
+	
 
 }

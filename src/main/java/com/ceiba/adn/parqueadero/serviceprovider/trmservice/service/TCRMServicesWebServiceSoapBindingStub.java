@@ -3,7 +3,9 @@ package com.ceiba.adn.parqueadero.serviceprovider.trmservice.service;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.axis.client.Call;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
 import org.apache.axis.encoding.ser.BeanSerializerFactory;
 
@@ -16,6 +18,8 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 	private List<Object> cachedSerQNames = new ArrayList<>();
 	private List<Object> cachedSerFactories = new ArrayList<>();
 	private List<Object> cachedDeserFactories = new ArrayList<>();
+	
+	private static final String URL_TCRM_RESPONSE = "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/"; 
 
 	static org.apache.axis.description.OperationDesc[] operations;
 
@@ -37,7 +41,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		param.setOmittable(true);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName(
-				"http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/", "tcrmResponse"));
+				URL_TCRM_RESPONSE, "tcrmResponse"));
 		oper.setReturnClass(TcrmResponse.class);
 		oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
 		oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
@@ -68,7 +72,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		Class<BeanSerializerFactory> beansf = org.apache.axis.encoding.ser.BeanSerializerFactory.class;
 		Class<BeanDeserializerFactory> beandf = org.apache.axis.encoding.ser.BeanDeserializerFactory.class;
 		qName = new javax.xml.namespace.QName(
-				"http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/", "tcrm");
+				URL_TCRM_RESPONSE, "tcrm");
 		cachedSerQNames.add(qName);
 		cls = Tcrm.class;
 		cachedSerClasses.add(cls);
@@ -76,7 +80,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		cachedDeserFactories.add(beandf);
 
 		qName = new javax.xml.namespace.QName(
-				"http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/", "tcrmResponse");
+				URL_TCRM_RESPONSE, "tcrmResponse");
 		cachedSerQNames.add(qName);
 		cls = TcrmResponse.class;
 		cachedSerClasses.add(cls);
@@ -84,28 +88,38 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		cachedDeserFactories.add(beandf);
 
 	}
+	
+	private Call validateNullAndSet(Call call) {
+		
+		if (super.cachedUsername != null) {
+			call.setUsername(super.cachedUsername);
+		}
+		if (super.cachedPassword != null) {
+			call.setPassword(super.cachedPassword);
+		}
+		if (super.cachedEndpoint != null) {
+			call.setTargetEndpointAddress(super.cachedEndpoint);
+		}
+		if (super.cachedTimeout != null) {
+			call.setTimeout(super.cachedTimeout);
+		}
+		if (super.cachedPortName != null) {
+			call.setPortName(super.cachedPortName);
+		}
+		
+		return call;
+	}
 
 	protected org.apache.axis.client.Call createCall() throws java.rmi.RemoteException {
 		try {
 			org.apache.axis.client.Call call = super._createCall();
+			
 			if (super.maintainSessionSet) {
 				call.setMaintainSession(super.maintainSession);
 			}
-			if (super.cachedUsername != null) {
-				call.setUsername(super.cachedUsername);
-			}
-			if (super.cachedPassword != null) {
-				call.setPassword(super.cachedPassword);
-			}
-			if (super.cachedEndpoint != null) {
-				call.setTargetEndpointAddress(super.cachedEndpoint);
-			}
-			if (super.cachedTimeout != null) {
-				call.setTimeout(super.cachedTimeout);
-			}
-			if (super.cachedPortName != null) {
-				call.setPortName(super.cachedPortName);
-			}
+			
+			call = validateNullAndSet(call);
+			
 			Enumeration<Object> keys = super.cachedProperties.keys();
 			while (keys.hasMoreElements()) {
 				java.lang.String key = (java.lang.String) keys.nextElement();

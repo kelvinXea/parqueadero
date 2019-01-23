@@ -41,7 +41,6 @@ public class TrmController {
 			trmdto.setValor(Double.parseDouble(decimalFormat.format(tcrmResponse.getValue())));
 
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ResponseEntity<>(trmdto, HttpStatus.OK);

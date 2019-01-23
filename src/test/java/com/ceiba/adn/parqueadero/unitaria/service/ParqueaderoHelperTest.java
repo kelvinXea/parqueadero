@@ -61,7 +61,6 @@ public class ParqueaderoHelperTest {
 	private static final String PLACA_CON_LETRA_A = "ASDASD";
 	private static final String PLACA_SIN_LETRA_A = "EUWEWE";
 	private static final int MIN_CC = 49;
-	// TODO verificar si es posible bindear el valor del config de max cantidad
 	private static final int MAX_CANTIDAD_CARROS = 20;
 	private static final int MAX_CANTIDAD_MOTOS = 10;
 	private static final int MIN_CANTIDAD_CARROS = 0;

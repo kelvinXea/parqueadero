@@ -30,7 +30,7 @@ public class Factura implements Serializable{
     @GeneratedValue
     @Column(name = "id", nullable = false)
 	private Long id;
-	// TODO implementar mensajes en los properties
+
 	@Size(max = 10, message = "La placa no puede ser mayor a 10 caracteres")
 	@Size(min = 2, message = "La placa no puede ser menor a 2 caracteres")
 	@Column(nullable = false)

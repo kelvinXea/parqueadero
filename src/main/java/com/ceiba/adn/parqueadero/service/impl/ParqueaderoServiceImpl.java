@@ -36,9 +36,9 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 
 		if (parqueaderoHelper.parqueaderoEstaLleno(vehiculo.getTipoVehiculo()))
 			throw new ParqueaderoException(mensajeConfiguration.getParqueaderoLleno());
-		
+
 		Factura factura = parqueaderoHelper.generarFacturaEntrada(vehiculo);
-				
+
 		return facturaRepository.save(factura);
 	}
 
@@ -50,14 +50,12 @@ public class ParqueaderoServiceImpl implements ParqueaderoService {
 	@Override
 	public Factura registrarSalidaDeVehiculo(String placa) {
 		Factura factura = facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, placa)
-				//TODO agregar a los mensajes
-				.orElseThrow(() -> new ParqueaderoException("El vehiculo no se encuentra en el parqueadero"));
-				
-		
+				.orElseThrow(() -> new ParqueaderoException(mensajeConfiguration.getVehiculoNoEsta()));
+
 		factura = parqueaderoHelper.generarFacturaSalida(factura);
-		
+
 		facturaRepository.save(factura);
-		
+
 		return factura;
 	}
 
