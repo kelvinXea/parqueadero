@@ -2,8 +2,8 @@ package com.ceiba.adn.parqueadero.serviceprovider.trmservice.service;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+
 import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.client.Call;

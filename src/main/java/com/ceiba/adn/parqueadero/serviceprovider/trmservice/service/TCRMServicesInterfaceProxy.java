@@ -26,13 +26,7 @@ public class TCRMServicesInterfaceProxy implements TCRMServicesInterface
 		try
 		{
 			tCRMServicesInterface = (new TCRMServicesWebServiceLocator()) .getTCRMServicesWebServicePort();
-			if (tCRMServicesInterface != null)
-			{
-				if (endpoint != null)
-					((javax.xml.rpc.Stub) tCRMServicesInterface)._setProperty( "javax.xml.rpc.service.endpoint.address",endpoint);
-				else
-					endpoint = (String) ((javax.xml.rpc.Stub) tCRMServicesInterface)._getProperty("javax.xml.rpc.service.endpoint.address");
-			}
+			((javax.xml.rpc.Stub) tCRMServicesInterface)._setProperty( "javax.xml.rpc.service.endpoint.address",endpoint);
 
 		}
 		catch (ServiceException e)
@@ -44,8 +38,6 @@ public class TCRMServicesInterfaceProxy implements TCRMServicesInterface
 
 	@Override
 	public TcrmResponse queryTCRM(Calendar tcrmQueryAssociatedDate) throws RemoteException {
-		if (tCRMServicesInterface == null)
-			initTCRMServicesInterfaceProxy();
 		return tCRMServicesInterface.queryTCRM(tcrmQueryAssociatedDate);
 	}
 
