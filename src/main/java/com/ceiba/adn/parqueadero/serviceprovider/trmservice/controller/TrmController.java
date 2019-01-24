@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class TrmController {
 
 	private static final  String WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
 
+	private static final Logger LOGGER = Logger.getLogger( TrmController.class.getName() );
+
 	@GetMapping("/trm")
 	public ResponseEntity<TrmDTO> consultarTrm() {
 		DecimalFormat decimalFormat = new DecimalFormat(DATE_RESPONSE_FORMAT);
@@ -41,7 +45,7 @@ public class TrmController {
 			trmdto.setValor(Double.parseDouble(decimalFormat.format(tcrmResponse.getValue())));
 
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Remote Exception", e);
 		}
 		return new ResponseEntity<>(trmdto, HttpStatus.OK);
 

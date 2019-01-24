@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -20,6 +21,8 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 	private List<Object> cachedSerQNames = new ArrayList<>();
 	private List<Object> cachedSerFactories = new ArrayList<>();
 	private List<Object> cachedDeserFactories = new ArrayList<>();
+	
+	private static final Logger LOGGER = Logger.getLogger( TCRMServicesWebServiceSoapBindingStub.class.getName() );
 	
 	private static final String URL_TCRM_RESPONSE = "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/"; 
 
@@ -133,30 +136,36 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 			// is the reason why registration is only needed for the first call.
 			synchronized (this) {
 				if (firstCall()) {
-					// must set encoding style before registering serializers
-					call.setEncodingStyle(null);
-					for (int i = 0; i < cachedSerFactories.size(); ++i) {
-						Class cls = (Class) cachedSerClasses.get(i);
-						javax.xml.namespace.QName qName = (javax.xml.namespace.QName) cachedSerQNames.get(i);
-						java.lang.Object x = cachedSerFactories.get(i);
-						if (x instanceof Class) {
-							Class sf = (Class) cachedSerFactories.get(i);
-							Class df = (Class) cachedDeserFactories.get(i);
-							call.registerTypeMapping(cls, qName, sf, df, false);
-						} else if (x instanceof javax.xml.rpc.encoding.SerializerFactory) {
-							org.apache.axis.encoding.SerializerFactory sf = (org.apache.axis.encoding.SerializerFactory) cachedSerFactories
-									.get(i);
-							org.apache.axis.encoding.DeserializerFactory df = (org.apache.axis.encoding.DeserializerFactory) cachedDeserFactories
-									.get(i);
-							call.registerTypeMapping(cls, qName, sf, df, false);
-						}
-					}
+					call = registerTypeMapping(call);
 				}
 			}
 			return call;
 		} catch (ServiceException e) {
 			throw new org.apache.axis.AxisFault("Failure trying to get the Call object", e);
 		}
+	}
+	
+	private Call registerTypeMapping(Call call) {
+		// must set encoding style before registering serializers
+		call.setEncodingStyle(null);
+		for (int i = 0; i < cachedSerFactories.size(); ++i) {
+			Class cls = (Class) cachedSerClasses.get(i);
+			javax.xml.namespace.QName qName = (javax.xml.namespace.QName) cachedSerQNames.get(i);
+			java.lang.Object x = cachedSerFactories.get(i);
+			if (x instanceof Class) {
+				Class sf = (Class) cachedSerFactories.get(i);
+				Class df = (Class) cachedDeserFactories.get(i);
+				call.registerTypeMapping(cls, qName, sf, df, false);
+			} else if (x instanceof javax.xml.rpc.encoding.SerializerFactory) {
+				org.apache.axis.encoding.SerializerFactory sf = (org.apache.axis.encoding.SerializerFactory) cachedSerFactories
+						.get(i);
+				org.apache.axis.encoding.DeserializerFactory df = (org.apache.axis.encoding.DeserializerFactory) cachedDeserFactories
+						.get(i);
+				call.registerTypeMapping(cls, qName, sf, df, false);
+			}
+		}
+		
+		return call;
 	}
 
 	public TcrmResponse queryTCRM(java.util.Calendar tcrmQueryAssociatedDate) throws java.rmi.RemoteException {
