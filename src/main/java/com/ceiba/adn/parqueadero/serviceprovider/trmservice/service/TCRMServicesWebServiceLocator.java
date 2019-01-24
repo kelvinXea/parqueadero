@@ -33,13 +33,9 @@ public class TCRMServicesWebServiceLocator extends Service implements TCRMServic
 	}
 
 	public TCRMServicesInterface getTCRMServicesWebServicePort(URL portAddress) throws ServiceException {
-		try {
-			TCRMServicesWebServiceSoapBindingStub stub = new TCRMServicesWebServiceSoapBindingStub(portAddress, this);
-			stub.setPortName(getTCRMServicesWebServicePortWSDDServiceName());
-			return stub;
-		} catch (org.apache.axis.AxisFault e) {
-			return null;
-		}
+		TCRMServicesWebServiceSoapBindingStub stub = new TCRMServicesWebServiceSoapBindingStub(portAddress, this);
+		stub.setPortName(getTCRMServicesWebServicePortWSDDServiceName());
+		return stub;
 	}
 
 

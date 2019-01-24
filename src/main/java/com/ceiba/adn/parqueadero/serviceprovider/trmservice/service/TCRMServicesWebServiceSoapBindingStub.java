@@ -1,9 +1,11 @@
 package com.ceiba.adn.parqueadero.serviceprovider.trmservice.service;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Optional;
+
+import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
@@ -54,8 +56,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		this(null);
 	}
 
-	public TCRMServicesWebServiceSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service)
-			throws org.apache.axis.AxisFault {
+	public TCRMServicesWebServiceSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) {
 		this(service);
 		super.cachedEndpoint = endpointURL;
 	}
@@ -110,7 +111,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		return call;
 	}
 
-	protected org.apache.axis.client.Call createCall() throws java.rmi.RemoteException {
+	protected org.apache.axis.client.Call createCall() throws RemoteException {
 		try {
 			org.apache.axis.client.Call call = super._createCall();
 			
@@ -153,8 +154,8 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 				}
 			}
 			return call;
-		} catch (java.lang.Throwable t) {
-			throw new org.apache.axis.AxisFault("Failure trying to get the Call object", t);
+		} catch (ServiceException e) {
+			throw new org.apache.axis.AxisFault("Failure trying to get the Call object", e);
 		}
 	}
 
@@ -171,26 +172,19 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
 		call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
 		call.setOperationName(new javax.xml.namespace.QName(
-				"http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/", "queryTCRM"));
+				URL_TCRM_RESPONSE, "queryTCRM"));
 
 		setRequestHeaders(call);
 		setAttachments(call);
-		try {
+
 			java.lang.Object resp = call.invoke(new java.lang.Object[] { tcrmQueryAssociatedDate });
 
 			if (resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) resp;
 			} else {
 				extractAttachments(call);
-				try {
 					return (TcrmResponse) resp;
-				} catch (java.lang.Exception exception) {
-					return (TcrmResponse) org.apache.axis.utils.JavaUtils.convert(resp, TcrmResponse.class);
-				}
 			}
-		} catch (org.apache.axis.AxisFault axisFaultException) {
-			throw axisFaultException;
-		}
 	}
 
 }
