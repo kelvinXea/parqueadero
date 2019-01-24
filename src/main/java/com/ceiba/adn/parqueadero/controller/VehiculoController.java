@@ -1,6 +1,7 @@
 package com.ceiba.adn.parqueadero.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ceiba.adn.parqueadero.configuration.MensajeConfiguration;
+import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
 import com.ceiba.adn.parqueadero.domain.model.Carro;
 import com.ceiba.adn.parqueadero.domain.model.Moto;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
@@ -37,8 +39,19 @@ public class VehiculoController {
 
 	@PostMapping("/vehiculo")
 	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
-		Class<?> clase = vehiculoDTO.getTipoVehiculo() == TipoVehiculo.CARRO ? Carro.class : Moto.class;
-		Vehiculo vehiculo = (Vehiculo) modelMapper.map(vehiculoDTO, clase);
+		
+		if (!Optional.ofNullable(vehiculoDTO.getTipoVehiculo()).isPresent()) {
+
+			throw new ParqueaderoException(mensajeConfiguration.getVehiculoNoSoportado());
+		}
+		Vehiculo vehiculo;
+
+		if (vehiculoDTO.getTipoVehiculo().equals(TipoVehiculo.MOTO)) {
+			vehiculo = modelMapper.map(vehiculoDTO, Moto.class);
+		} else {
+			vehiculo = modelMapper.map(vehiculoDTO, Carro.class);
+		}
+		
 		parqueaderoService.registrarIngresoVehiculo(vehiculo);
 		return ResponseEntity.ok().body('"' + mensajeConfiguration.getVehiculoRegistrado() + '"');
 	}

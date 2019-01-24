@@ -3,6 +3,7 @@ package com.ceiba.adn.parqueadero.service.impl;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,18 +57,16 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 	@Override
 	public Factura generarFacturaEntrada(Vehiculo vehiculo) {
 
-		switch (vehiculo.getTipoVehiculo()) {
-		case CARRO:
+		if (!Optional.ofNullable(vehiculo.getTipoVehiculo()).isPresent()) {
 
-			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(), vehiculo.getTipoVehiculo());
+			throw new ParqueaderoException(mensajeConfiguration.getVehiculoNoSoportado());
+		}
 
-		case MOTO:
-
+		if (vehiculo.getTipoVehiculo().equals(TipoVehiculo.MOTO)) {
 			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(), vehiculo.getTipoVehiculo(),
 					vehiculo.getCc());
-
-		default:
-			throw new ParqueaderoException(mensajeConfiguration.getVehiculoNoSoportado());
+		} else {
+			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(), vehiculo.getTipoVehiculo());
 		}
 
 	}
@@ -78,20 +77,16 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 		factura.setFechaSalida(localDateTimeWrapper.now());
 
 		Vehiculo vehiculo;
-		switch (factura.getTipoVehiculo()) {
-		case MOTO:
 
-			vehiculo = new Moto(factura.getPlaca(), factura.getCc());
-			break;
+		if (!Optional.ofNullable(factura.getTipoVehiculo()).isPresent()) {
 
-		case CARRO:
-
-			vehiculo = new Carro(factura.getPlaca());
-			break;
-
-		default:
 			throw new ParqueaderoException(mensajeConfiguration.getVehiculoNoSoportado());
+		}
 
+		if (factura.getTipoVehiculo().equals(TipoVehiculo.MOTO)) {
+			vehiculo = new Moto(factura.getPlaca(), factura.getCc());
+		} else {
+			vehiculo = new Carro(factura.getPlaca());
 		}
 
 		float segundos = ChronoUnit.SECONDS.between(factura.getFechaEntrada(), factura.getFechaSalida());

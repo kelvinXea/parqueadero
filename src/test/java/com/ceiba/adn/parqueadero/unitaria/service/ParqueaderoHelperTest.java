@@ -2,6 +2,8 @@ package com.ceiba.adn.parqueadero.unitaria.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -18,7 +20,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ceiba.adn.parqueadero.builder.FacturaTestDataBuilder;
+import com.ceiba.adn.parqueadero.configuration.MensajeConfiguration;
 import com.ceiba.adn.parqueadero.domain.entity.Factura;
+import com.ceiba.adn.parqueadero.domain.exception.ParqueaderoException;
 import com.ceiba.adn.parqueadero.domain.model.Carro;
 import com.ceiba.adn.parqueadero.domain.model.Moto;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
@@ -50,6 +54,9 @@ public class ParqueaderoHelperTest {
 
 	@Autowired
 	private ParqueaderoHelper parqueaderoHelper;
+
+	@Autowired
+	private MensajeConfiguration mensajeConfiguration;
 
 	private static final LocalDateTime DIA_LUNES = LocalDateTime.of(2019, Month.JANUARY, 21, 7, 0);
 	private static final LocalDateTime DIA_DOMINGO = LocalDateTime.of(2019, Month.JANUARY, 20, 7, 0);
@@ -138,7 +145,7 @@ public class ParqueaderoHelperTest {
 	}
 
 	@Test
-	public void generarVehiculoCarroTest() {
+	public void generarFacturaEntradaCarroTest() {
 		// arrange
 		Vehiculo vehiculo = new Carro(PLACA_SIN_LETRA_A);
 		// act
@@ -148,13 +155,29 @@ public class ParqueaderoHelperTest {
 	}
 
 	@Test
-	public void generarVehiculoMotoTest() {
+	public void generarFacturaEntradaMotoTest() {
 		// arrange
 		Vehiculo vehiculo = new Moto(PLACA_SIN_LETRA_A, MIN_CC);
 		// act
 		Factura factura = parqueaderoHelper.generarFacturaEntrada(vehiculo);
 		// assert
 		assertEquals(TipoVehiculo.MOTO, factura.getTipoVehiculo());
+	}
+
+	@Test
+	public void generarFacturaEntradaExceptionTest() {
+		// arrange
+		Vehiculo vehiculo = mock(Carro.class);
+
+		// act
+		when(vehiculo.getTipoVehiculo()).thenReturn(null);
+		try {
+			parqueaderoHelper.generarFacturaEntrada(vehiculo);
+			fail();
+		} catch (ParqueaderoException e) {
+			// assert
+			assertEquals(mensajeConfiguration.getVehiculoNoSoportado(), e.getMessage());
+		}
 	}
 
 	@Test
@@ -195,6 +218,22 @@ public class ParqueaderoHelperTest {
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoCarro, false)).thenReturn(MIN_CANTIDAD_CARROS);
 		// assert
 		assertFalse(parqueaderoHelper.parqueaderoEstaLleno(tipoCarro));
+	}
+	
+	@Test
+	public void generarFacturaSalidaExceptionTest() {
+		// arrange
+		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		Factura factura = ftdb.withTipoVehiculo(null).build();
+
+		// act
+		try {
+			parqueaderoHelper.generarFacturaSalida(factura);
+			fail();
+		} catch (ParqueaderoException e) {
+			// assert
+			assertEquals(mensajeConfiguration.getVehiculoNoSoportado(), e.getMessage());
+		}
 	}
 
 	@Test

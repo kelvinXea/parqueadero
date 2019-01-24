@@ -48,7 +48,7 @@ public class ParqueaderoServiceTest {
 	ParqueaderoService parqueaderoService;
 	
 	@Autowired
-	MensajeConfiguration mensajeConfiguration;
+	private MensajeConfiguration mensajeConfiguration;
 	
 	@Autowired
 	private ParqueaderoConfiguration parqueaderoConfiguration;

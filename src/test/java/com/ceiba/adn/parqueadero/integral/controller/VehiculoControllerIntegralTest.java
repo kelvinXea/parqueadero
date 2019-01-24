@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.ceiba.adn.parqueadero.ParqueaderoApplication;
 import com.ceiba.adn.parqueadero.builder.FacturaTestDataBuilder;
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ParqueaderoApplication.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class VehiculoControllerTest {
+public class VehiculoControllerIntegralTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -72,9 +73,10 @@ public class VehiculoControllerTest {
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
 		// act
 		facturaVehiculoRepository.save(ftdb.build());
+		ResultActions ra = mvc.perform(get("/vehiculo").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 		// assert
-		mvc.perform(get("/vehiculo").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		ra.andExpect(status().isOk());
 
 	}
 
@@ -101,9 +103,8 @@ public class VehiculoControllerTest {
 	@Test
 	public void registrarVehiculoMotoTest() throws JsonProcessingException, Exception {
 		// arrange
-		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder()
-				.withfechaEntrada(LocalDateTime.now()).withTipoVehiculo(TipoVehiculo.MOTO)
-				.withCc(CC).withPlaca(PLACA2);
+		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withfechaEntrada(LocalDateTime.now())
+				.withTipoVehiculo(TipoVehiculo.MOTO).withCc(CC).withPlaca(PLACA2);
 		VehiculoDTO vehiculoDto = vtdb.buildVehiculoDTO();
 		// act
 		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
@@ -121,10 +122,11 @@ public class VehiculoControllerTest {
 		// arrange
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withPlaca(PLACA);
 		// act
-		// assert
-		mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
+		ResultActions ra = mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+				.contentType(MediaType.APPLICATION_JSON));
+		// assert
+		ra.andExpect(status().isBadRequest());
 	}
 
 }
