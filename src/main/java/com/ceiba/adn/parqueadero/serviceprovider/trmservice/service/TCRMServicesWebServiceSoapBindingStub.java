@@ -50,21 +50,14 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 
 	}
 
-	public TCRMServicesWebServiceSoapBindingStub() throws org.apache.axis.AxisFault {
-		this(null);
-	}
-
 	public TCRMServicesWebServiceSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) {
 		this(service);
 		super.cachedEndpoint = endpointURL;
 	}
 
 	public TCRMServicesWebServiceSoapBindingStub(javax.xml.rpc.Service service) {
-		if (service == null) {
-			super.service = new org.apache.axis.client.Service();
-		} else {
-			super.service = service;
-		}
+		super.service = service;
+
 		((org.apache.axis.client.Service) super.service).setTypeMappingVersion("1.2");
 		Class cls;
 		javax.xml.namespace.QName qName;
@@ -90,28 +83,17 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		try {
 			org.apache.axis.client.Call call = super._createCall();
 
-			if (super.maintainSessionSet) {
-				call.setMaintainSession(super.maintainSession);
-			}
-
 			call.setTargetEndpointAddress(super.cachedEndpoint);
 
 			call.setPortName(super.cachedPortName);
 
-			Enumeration<Object> keys = super.cachedProperties.keys();
-			while (keys.hasMoreElements()) {
-				java.lang.String key = (java.lang.String) keys.nextElement();
-				call.setProperty(key, super.cachedProperties.get(key));
-			}
 			// All the type mapping information is registered
 			// when the first call is made.
 			// The type mapping information is actually registered in
 			// the TypeMappingRegistry of the service, which
 			// is the reason why registration is only needed for the first call.
 			synchronized (this) {
-				if (firstCall()) {
-					call = registerTypeMapping(call);
-				}
+				call = registerTypeMapping(call);
 			}
 			return call;
 		} catch (ServiceException e) {
@@ -125,27 +107,16 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		for (int i = 0; i < cachedSerFactories.size(); ++i) {
 			Class cls = (Class) cachedSerClasses.get(i);
 			javax.xml.namespace.QName qName = (javax.xml.namespace.QName) cachedSerQNames.get(i);
-			java.lang.Object x = cachedSerFactories.get(i);
-			if (x instanceof Class) {
-				Class sf = (Class) cachedSerFactories.get(i);
-				Class df = (Class) cachedDeserFactories.get(i);
-				call.registerTypeMapping(cls, qName, sf, df, false);
-			} else if (x instanceof javax.xml.rpc.encoding.SerializerFactory) {
-				org.apache.axis.encoding.SerializerFactory sf = (org.apache.axis.encoding.SerializerFactory) cachedSerFactories
-						.get(i);
-				org.apache.axis.encoding.DeserializerFactory df = (org.apache.axis.encoding.DeserializerFactory) cachedDeserFactories
-						.get(i);
-				call.registerTypeMapping(cls, qName, sf, df, false);
-			}
+			Class sf = (Class) cachedSerFactories.get(i);
+			Class df = (Class) cachedDeserFactories.get(i);
+			call.registerTypeMapping(cls, qName, sf, df, false);
 		}
 
 		return call;
 	}
 
 	public TcrmResponse queryTCRM(java.util.Calendar tcrmQueryAssociatedDate) throws java.rmi.RemoteException {
-		if (super.cachedEndpoint == null) {
-			throw new org.apache.axis.NoEndPointException();
-		}
+		
 		org.apache.axis.client.Call call = createCall();
 		call.setOperation(operations[0]);
 		call.setUseSOAPAction(true);
@@ -161,12 +132,8 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 
 		java.lang.Object resp = call.invoke(new java.lang.Object[] { tcrmQueryAssociatedDate });
 
-		if (resp instanceof java.rmi.RemoteException) {
-			throw (java.rmi.RemoteException) resp;
-		} else {
-			extractAttachments(call);
-			return (TcrmResponse) resp;
-		}
+		extractAttachments(call);
+		return (TcrmResponse) resp;
 	}
 
 }
