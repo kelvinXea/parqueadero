@@ -4,8 +4,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Logger;
-
 import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.client.Call;
@@ -21,8 +19,6 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 	private List<Object> cachedSerQNames = new ArrayList<>();
 	private List<Object> cachedSerFactories = new ArrayList<>();
 	private List<Object> cachedDeserFactories = new ArrayList<>();
-	
-	private static final Logger LOGGER = Logger.getLogger( TCRMServicesWebServiceSoapBindingStub.class.getName() );
 	
 	private static final String URL_TCRM_RESPONSE = "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/"; 
 

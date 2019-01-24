@@ -89,5 +89,14 @@ public class VehiculoControllerTest {
 		assert (facturaFinal.get().isCompleto());
 
 	}
+	
+	@Test
+	public void registrarSalidaExceptionHandler() throws JsonProcessingException, Exception {
+		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withPlaca(PLACA);
+		
+		mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+	}
 
 }
