@@ -26,6 +26,7 @@ import com.ceiba.adn.parqueadero.builder.FacturaTestDataBuilder;
 import com.ceiba.adn.parqueadero.builder.VehiculoTestDataBuilder;
 import com.ceiba.adn.parqueadero.domain.entity.Factura;
 import com.ceiba.adn.parqueadero.domain.model.dto.VehiculoDTO;
+import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.domain.repository.FacturaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,18 +45,21 @@ public class VehiculoControllerTest {
 
 	@Autowired
 	private FacturaRepository facturaVehiculoRepository;
-	
+
 	private final static String PLACA = "TOOEZXD";
+	private final static String PLACA2 = "TOOEZXDT";
+	private final static Integer CC = 100;
 
 	@Test
-	public void registrarVehiculoTest() throws Exception {
+	public void registrarVehiculoCarroTest() throws Exception {
 
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withfechaEntrada(LocalDateTime.now());
 		VehiculoDTO vehiculoDto = vtdb.buildVehiculoDTO();
 		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vehiculoDto)).contentType(MediaType.APPLICATION_JSON));
 
-		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false, vehiculoDto.getPlaca());
+		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false,
+				vehiculoDto.getPlaca());
 
 		assertEquals(vehiculoDto.getPlaca(), factura.get().getPlaca());
 
@@ -84,16 +88,34 @@ public class VehiculoControllerTest {
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
-		Optional<Factura> facturaFinal = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(true, factura.getPlaca());
+		Optional<Factura> facturaFinal = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(true,
+				factura.getPlaca());
 
 		assert (facturaFinal.get().isCompleto());
 
 	}
-	
+
+	@Test
+	public void registrarVehiculoMotoTest() throws JsonProcessingException, Exception {
+
+		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder()
+				.withfechaEntrada(LocalDateTime.now()).withTipoVehiculo(TipoVehiculo.MOTO)
+				.withCc(CC).withPlaca(PLACA2);
+		VehiculoDTO vehiculoDto = vtdb.buildVehiculoDTO();
+		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(vehiculoDto)).contentType(MediaType.APPLICATION_JSON));
+
+		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false,
+				vehiculoDto.getPlaca());
+
+		assertEquals(vehiculoDto.getPlaca(), factura.get().getPlaca());
+
+	}
+
 	@Test
 	public void registrarSalidaExceptionHandler() throws JsonProcessingException, Exception {
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withPlaca(PLACA);
-		
+
 		mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
