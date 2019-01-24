@@ -19,8 +19,8 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 	private List<Object> cachedSerQNames = new ArrayList<>();
 	private List<Object> cachedSerFactories = new ArrayList<>();
 	private List<Object> cachedDeserFactories = new ArrayList<>();
-	
-	private static final String URL_TCRM_RESPONSE = "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/"; 
+
+	private static final String URL_TCRM_RESPONSE = "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/";
 
 	static org.apache.axis.description.OperationDesc[] operations;
 
@@ -41,8 +41,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 				false, false);
 		param.setOmittable(true);
 		oper.addParameter(param);
-		oper.setReturnType(new javax.xml.namespace.QName(
-				URL_TCRM_RESPONSE, "tcrmResponse"));
+		oper.setReturnType(new javax.xml.namespace.QName(URL_TCRM_RESPONSE, "tcrmResponse"));
 		oper.setReturnClass(TcrmResponse.class);
 		oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
 		oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
@@ -60,7 +59,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		super.cachedEndpoint = endpointURL;
 	}
 
-	public TCRMServicesWebServiceSoapBindingStub(javax.xml.rpc.Service service){
+	public TCRMServicesWebServiceSoapBindingStub(javax.xml.rpc.Service service) {
 		if (service == null) {
 			super.service = new org.apache.axis.client.Service();
 		} else {
@@ -71,16 +70,14 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		javax.xml.namespace.QName qName;
 		Class<BeanSerializerFactory> beansf = org.apache.axis.encoding.ser.BeanSerializerFactory.class;
 		Class<BeanDeserializerFactory> beandf = org.apache.axis.encoding.ser.BeanDeserializerFactory.class;
-		qName = new javax.xml.namespace.QName(
-				URL_TCRM_RESPONSE, "tcrm");
+		qName = new javax.xml.namespace.QName(URL_TCRM_RESPONSE, "tcrm");
 		cachedSerQNames.add(qName);
 		cls = Tcrm.class;
 		cachedSerClasses.add(cls);
 		cachedSerFactories.add(beansf);
 		cachedDeserFactories.add(beandf);
 
-		qName = new javax.xml.namespace.QName(
-				URL_TCRM_RESPONSE, "tcrmResponse");
+		qName = new javax.xml.namespace.QName(URL_TCRM_RESPONSE, "tcrmResponse");
 		cachedSerQNames.add(qName);
 		cls = TcrmResponse.class;
 		cachedSerClasses.add(cls);
@@ -88,38 +85,19 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		cachedDeserFactories.add(beandf);
 
 	}
-	
-	private Call validateNullAndSet(Call call) {
-		
-		if (super.cachedUsername != null) {
-			call.setUsername(super.cachedUsername);
-		}
-		if (super.cachedPassword != null) {
-			call.setPassword(super.cachedPassword);
-		}
-		if (super.cachedEndpoint != null) {
-			call.setTargetEndpointAddress(super.cachedEndpoint);
-		}
-		if (super.cachedTimeout != null) {
-			call.setTimeout(super.cachedTimeout);
-		}
-		if (super.cachedPortName != null) {
-			call.setPortName(super.cachedPortName);
-		}
-		
-		return call;
-	}
 
 	protected org.apache.axis.client.Call createCall() throws RemoteException {
 		try {
 			org.apache.axis.client.Call call = super._createCall();
-			
+
 			if (super.maintainSessionSet) {
 				call.setMaintainSession(super.maintainSession);
 			}
-			
-			call = validateNullAndSet(call);
-			
+
+			call.setTargetEndpointAddress(super.cachedEndpoint);
+
+			call.setPortName(super.cachedPortName);
+
 			Enumeration<Object> keys = super.cachedProperties.keys();
 			while (keys.hasMoreElements()) {
 				java.lang.String key = (java.lang.String) keys.nextElement();
@@ -140,7 +118,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 			throw new org.apache.axis.AxisFault("Failure trying to get the Call object", e);
 		}
 	}
-	
+
 	private Call registerTypeMapping(Call call) {
 		// must set encoding style before registering serializers
 		call.setEncodingStyle(null);
@@ -160,7 +138,7 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 				call.registerTypeMapping(cls, qName, sf, df, false);
 			}
 		}
-		
+
 		return call;
 	}
 
@@ -176,20 +154,19 @@ public class TCRMServicesWebServiceSoapBindingStub extends org.apache.axis.clien
 		call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
 		call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
 		call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-		call.setOperationName(new javax.xml.namespace.QName(
-				URL_TCRM_RESPONSE, "queryTCRM"));
+		call.setOperationName(new javax.xml.namespace.QName(URL_TCRM_RESPONSE, "queryTCRM"));
 
 		setRequestHeaders(call);
 		setAttachments(call);
 
-			java.lang.Object resp = call.invoke(new java.lang.Object[] { tcrmQueryAssociatedDate });
+		java.lang.Object resp = call.invoke(new java.lang.Object[] { tcrmQueryAssociatedDate });
 
-			if (resp instanceof java.rmi.RemoteException) {
-				throw (java.rmi.RemoteException) resp;
-			} else {
-				extractAttachments(call);
-					return (TcrmResponse) resp;
-			}
+		if (resp instanceof java.rmi.RemoteException) {
+			throw (java.rmi.RemoteException) resp;
+		} else {
+			extractAttachments(call);
+			return (TcrmResponse) resp;
+		}
 	}
 
 }
