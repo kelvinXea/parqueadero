@@ -66,12 +66,15 @@ public class ParqueaderoServiceTest {
 	
 	@Test
 	public void noPuedeEntrarEnElParqueaderoExceptionTest() {
+		// arrange
 		Vehiculo vehiculo = new Carro(PLACA_CON_LETRA_A);
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_LUNES);
 		try {
 			parqueaderoService.registrarIngresoVehiculo(vehiculo);
 			fail();
 		} catch (ParqueaderoException e) {
+			// assert
 			assertEquals(mensajeConfiguration.getVehiculoNoPuedeEntrar(), e.getMessage());
 		}
 		
@@ -79,26 +82,32 @@ public class ParqueaderoServiceTest {
 	
 	@Test
 	public void elVehiculoSeEncuentraEnElParqueaderoExceptionTest() {
+		// arrange
 		Vehiculo vehiculo = new Carro(PLACA_SIN_LETRA_A);
 		Factura factura = new FacturaTestDataBuilder().withPlaca(PLACA_SIN_LETRA_A).withIsCompleto(false).build();
+		// act
 		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_SIN_LETRA_A)).thenReturn(Optional.of(factura));
 		try {
 			parqueaderoService.registrarIngresoVehiculo(vehiculo);
 			fail();
 		} catch (ParqueaderoException e) {
+			// assert
 			assertEquals(mensajeConfiguration.getVehiculoEnParqueadero(), e.getMessage());
 		}
 	} 
 	
 	@Test
 	public void elParqueaderoEstaLlenoExceptionTest() {
+		// arrange
 		TipoVehiculo tipoMoto = TipoVehiculo.MOTO;
 		Vehiculo vehiculo = new Moto(PLACA_SIN_LETRA_A, 50);
+		// act
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoMoto, false)).thenReturn(parqueaderoConfiguration.getMaxCantidadVehiculo(tipoMoto));
 		try {
 			parqueaderoService.registrarIngresoVehiculo(vehiculo);
 			fail();
 		} catch (ParqueaderoException e) {
+			// assert
 			assertEquals(mensajeConfiguration.getParqueaderoLleno(), e.getMessage());
 		}
 	}

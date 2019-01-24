@@ -52,25 +52,27 @@ public class VehiculoControllerTest {
 
 	@Test
 	public void registrarVehiculoCarroTest() throws Exception {
-
+		// arrange
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withfechaEntrada(LocalDateTime.now());
 		VehiculoDTO vehiculoDto = vtdb.buildVehiculoDTO();
+		// act
 		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vehiculoDto)).contentType(MediaType.APPLICATION_JSON));
 
 		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false,
 				vehiculoDto.getPlaca());
-
+		// assert
 		assertEquals(vehiculoDto.getPlaca(), factura.get().getPlaca());
 
 	}
 
 	@Test
 	public void consultarVehiculosTest() throws Exception {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
-
+		// act
 		facturaVehiculoRepository.save(ftdb.build());
-
+		// assert
 		mvc.perform(get("/vehiculo").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
@@ -78,44 +80,48 @@ public class VehiculoControllerTest {
 
 	@Test
 	public void registrarSalidaVehiculoTest() throws JsonProcessingException, Exception {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder().withPlaca(PLACA);
 		Factura factura = ftdb.build();
 		facturaVehiculoRepository.save(factura);
 
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withPlaca(factura.getPlaca());
-
+		// act
 		mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 		Optional<Factura> facturaFinal = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(true,
 				factura.getPlaca());
-
+		// assert
 		assert (facturaFinal.get().isCompleto());
 
 	}
 
 	@Test
 	public void registrarVehiculoMotoTest() throws JsonProcessingException, Exception {
-
+		// arrange
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder()
 				.withfechaEntrada(LocalDateTime.now()).withTipoVehiculo(TipoVehiculo.MOTO)
 				.withCc(CC).withPlaca(PLACA2);
 		VehiculoDTO vehiculoDto = vtdb.buildVehiculoDTO();
+		// act
 		mvc.perform(post("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vehiculoDto)).contentType(MediaType.APPLICATION_JSON));
 
 		Optional<Factura> factura = facturaVehiculoRepository.findByIsCompletoAndPlacaIgnoreCase(false,
 				vehiculoDto.getPlaca());
-
+		// arrange
 		assertEquals(vehiculoDto.getPlaca(), factura.get().getPlaca());
 
 	}
 
 	@Test
 	public void registrarSalidaExceptionHandler() throws JsonProcessingException, Exception {
+		// arrange
 		VehiculoTestDataBuilder vtdb = new VehiculoTestDataBuilder().withPlaca(PLACA);
-
+		// act
+		// assert
 		mvc.perform(put("/vehiculo").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(vtdb.buildVehiculoDTO()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());

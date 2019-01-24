@@ -28,6 +28,9 @@ public class TrmControllerTest {
 	
 	@Test
 	public void consultarTrmTest() throws Exception {
+		// arrange
+		// act
+		// assert
 		mvc.perform(get("/trm").contentType(MediaType.APPLICATION_JSON))
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}

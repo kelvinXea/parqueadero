@@ -73,134 +73,196 @@ public class ParqueaderoHelperTest {
 
 	@Test
 	public void noPuedeEntrarEnElParqueaderoLunesConLetraATest() {
+		// arrange
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_LUNES);
+		// assert
 		assertFalse(parqueaderoHelper.puedeEntrarEnElParqueadero(PLACA_CON_LETRA_A));
 	}
 
 	@Test
 	public void noPuedeEntrarEnElParqueaderoDomingoConLetraATest() {
+		// arrange
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_DOMINGO);
+		// assert
 		assertFalse(parqueaderoHelper.puedeEntrarEnElParqueadero(PLACA_CON_LETRA_A));
 	}
 
 	@Test
 	public void puedeEntrarEnElParqueaderoLunesConLetraATest() {
+		// arrange
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_LUNES);
+		// assert
 		assert (parqueaderoHelper.puedeEntrarEnElParqueadero(PLACA_SIN_LETRA_A));
 	}
 
 	@Test
 	public void puedeEntrarEnElParqueaderoDomingoConLetraATest() {
+		// arrange
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_DOMINGO);
+		// assert
 		assert (parqueaderoHelper.puedeEntrarEnElParqueadero(PLACA_SIN_LETRA_A));
 	}
 
 	@Test
 	public void puedeEntrarEnElParqueaderoOtroDiaConLetraATest() {
+		// arrange
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(DIA_MARTES);
+		// assert
 		assert (parqueaderoHelper.puedeEntrarEnElParqueadero(PLACA_CON_LETRA_A));
 	}
 
 	@Test
 	public void elVehiculoSeEncuentraEnElParqueaderoTest() {
+		// arrange
 		Factura factura = new FacturaTestDataBuilder().withPlaca(PLACA_CON_LETRA_A).withIsCompleto(false).build();
-		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_CON_LETRA_A)).thenReturn(Optional.of(factura));
+		// act
+		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_CON_LETRA_A))
+				.thenReturn(Optional.of(factura));
+		// assert
 		assert (parqueaderoHelper.existeVehiculoEnParqueadero(PLACA_CON_LETRA_A));
 	}
 
 	@Test
 	public void elVehiculoNoSeEncuentraEnElParqueaderoTest() {
-		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_CON_LETRA_A)).thenReturn(Optional.ofNullable(null));
+		// arrange
+		// act
+		when(facturaRepository.findByIsCompletoAndPlacaIgnoreCase(false, PLACA_CON_LETRA_A))
+				.thenReturn(Optional.ofNullable(null));
+		// assert
 		assertFalse(parqueaderoHelper.existeVehiculoEnParqueadero(PLACA_CON_LETRA_A));
 	}
 
 	@Test
 	public void generarVehiculoCarroTest() {
+		// arrange
 		Vehiculo vehiculo = new Carro(PLACA_SIN_LETRA_A);
+		// act
 		Factura factura = parqueaderoHelper.generarFacturaEntrada(vehiculo);
+		// assert
 		assertEquals(TipoVehiculo.CARRO, factura.getTipoVehiculo());
 	}
 
 	@Test
 	public void generarVehiculoMotoTest() {
+		// arrange
 		Vehiculo vehiculo = new Moto(PLACA_SIN_LETRA_A, MIN_CC);
+		// act
 		Factura factura = parqueaderoHelper.generarFacturaEntrada(vehiculo);
+		// assert
 		assertEquals(TipoVehiculo.MOTO, factura.getTipoVehiculo());
 	}
 
 	@Test
 	public void elParqueaderoEstaLlenoMotoTest() {
+		// arrange
 		TipoVehiculo tipoMoto = TipoVehiculo.MOTO;
+		// act
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoMoto, false)).thenReturn(MAX_CANTIDAD_MOTOS);
+		// assert
 		assert (parqueaderoHelper.parqueaderoEstaLleno(tipoMoto));
 	}
 
 	@Test
 	public void elParqueaderoEstaLlenoCarroTest() {
+		// arrange
 		TipoVehiculo tipoCarro = TipoVehiculo.CARRO;
+		// act
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoCarro, false)).thenReturn(MAX_CANTIDAD_CARROS);
+		// assert
 		assert (parqueaderoHelper.parqueaderoEstaLleno(tipoCarro));
 	}
 
 	@Test
 	public void elParqueaderoNoEstaLlenoMotoTest() {
+		// arrange
 		TipoVehiculo tipoMoto = TipoVehiculo.MOTO;
+		// act
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoMoto, false)).thenReturn(MIN_CANTIDAD_MOTOS);
+		// assert
 		assertFalse(parqueaderoHelper.parqueaderoEstaLleno(tipoMoto));
 	}
 
 	@Test
 	public void elParqueaderoNoEstaLlenoCarroTest() {
+		// arrange
 		TipoVehiculo tipoCarro = TipoVehiculo.CARRO;
+		// act
 		when(facturaRepository.countByTipoVehiculoAndIsCompleto(tipoCarro, false)).thenReturn(MIN_CANTIDAD_CARROS);
+		// assert
 		assertFalse(parqueaderoHelper.parqueaderoEstaLleno(tipoCarro));
 	}
 
 	@Test
 	public void costoCarro9HorasTest() {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_1PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.CARRO).withfechaEntrada(HORA_4AM).build();
+		// assert
 		assertEquals(VALOR_1DIA_CARRO, parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
-	
+
 	@Test
 	public void costoCarro7HorasTest() {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_1PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.CARRO).withfechaEntrada(HORA_6AM).build();
+		// assert
 		assertEquals(VALOR_7HORAS_CARRO, parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
-	
+
 	@Test
 	public void costoMoto9HorasTest() {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_1PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.MOTO).withCc(50).withfechaEntrada(HORA_4AM).build();
+		// assert
 		assertEquals(VALOR_1DIA_MOTO, parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
-	
+
 	@Test
 	public void costoMoto7HorasTest() {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_1PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.MOTO).withCc(50).withfechaEntrada(HORA_6AM).build();
+		// assert
 		assertEquals(VALOR_7HORAS_MOTO, parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
-	
+
 	@Test
 	public void costoMoto7HorasCon600CcTest() {
+		// arrange
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_1PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.MOTO).withCc(600).withfechaEntrada(HORA_6AM).build();
-		assertEquals(VALOR_7HORAS_MOTO+VALOR_PAGO_CC_MOTO, parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
+		// assert
+		assertEquals(VALOR_7HORAS_MOTO + VALOR_PAGO_CC_MOTO,
+				parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
+
 	@Test
 	public void costoMoto7HorasCon30MinCon600CcTest() {
+		// arrange
 		Moto moto = new Moto();
 		FacturaTestDataBuilder ftdb = new FacturaTestDataBuilder();
+		// act
 		when(localDateTimeWrapper.now()).thenReturn(HORA_130PM);
 		Factura factura = ftdb.withTipoVehiculo(TipoVehiculo.MOTO).withCc(600).withfechaEntrada(HORA_6AM).build();
-		assertEquals(VALOR_7HORAS_MOTO+VALOR_PAGO_CC_MOTO + moto.getValorHora(), parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
+		// assert
+		assertEquals(VALOR_7HORAS_MOTO + VALOR_PAGO_CC_MOTO + moto.getValorHora(),
+				parqueaderoHelper.generarFacturaSalida(factura).getPagoTotal().intValue());
 	}
 }
