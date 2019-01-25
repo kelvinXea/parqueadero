@@ -179,6 +179,40 @@ public class ParqueaderoHelperTest {
 			assertEquals(mensajeConfiguration.getVehiculoNoSoportado(), e.getMessage());
 		}
 	}
+	
+	@Test
+	public void generarFacturaEntradaMotoCcMenor49ExceptionTest() {
+		// arrange
+		Vehiculo vehiculo = mock(Moto.class);
+
+		// act
+		when(vehiculo.getCc()).thenReturn(0);
+		when(vehiculo.getTipoVehiculo()).thenReturn(TipoVehiculo.MOTO);
+		try {
+			parqueaderoHelper.generarFacturaEntrada(vehiculo);
+			fail();
+		} catch (ParqueaderoException e) {
+			// assert
+			assertEquals(mensajeConfiguration.getVehiculoCcNoValido(), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void generarFacturaEntradaMotoCcNullExceptionTest() {
+		// arrange
+		Vehiculo vehiculo = mock(Moto.class);
+
+		// act
+		when(vehiculo.getCc()).thenReturn(null);
+		when(vehiculo.getTipoVehiculo()).thenReturn(TipoVehiculo.MOTO);
+		try {
+			parqueaderoHelper.generarFacturaEntrada(vehiculo);
+			fail();
+		} catch (ParqueaderoException e) {
+			// assert
+			assertEquals(mensajeConfiguration.getVehiculoCcNoValido(), e.getMessage());
+		}
+	}
 
 	@Test
 	public void elParqueaderoEstaLlenoMotoTest() {

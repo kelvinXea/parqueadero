@@ -25,6 +25,9 @@ public class MensajeConfiguration {
 	
 	@Value("${parqueadero.vehiculoNoSoportado}")
 	private String vehiculoNoSoportado;
+	
+	@Value("${parqueadero.vehiculoCcNoValido}")
+	private String vehiculoCcNoValido;
 
 	public String getVehiculoEnParqueadero() {
 		return vehiculoEnParqueadero;
@@ -49,6 +52,11 @@ public class MensajeConfiguration {
 	public String getVehiculoNoSoportado() {
 		return vehiculoNoSoportado;
 	}
+
+	public String getVehiculoCcNoValido() {
+		return vehiculoCcNoValido;
+	}
+	
 	
 
 }

@@ -15,6 +15,9 @@ public class ParqueaderoConfiguration {
 
 	@Value("${maxCantidadMotos}")
 	private Integer maxCantidadMotos;
+	
+	@Value("${maxCcCobro}")
+	private Integer maxCcCobro;
 
 	public Integer getMaxCantidadVehiculo(TipoVehiculo tipoVehiculo) {
 		switch (tipoVehiculo) {
@@ -31,5 +34,10 @@ public class ParqueaderoConfiguration {
 			return null;
 		}
 	}
+
+	public Integer getMaxCcCobro() {
+		return maxCcCobro;
+	}
+
 
 }

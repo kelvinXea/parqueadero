@@ -63,6 +63,18 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 		}
 
 		if (vehiculo.getTipoVehiculo().equals(TipoVehiculo.MOTO)) {
+			Optional<Integer> oVehiculo = Optional.ofNullable(vehiculo.getCc());
+
+			if (oVehiculo.isPresent()) {
+
+				if (oVehiculo.get() < 49) {
+					throw new ParqueaderoException(mensajeConfiguration.getVehiculoCcNoValido());
+				}
+
+			} else {
+				throw new ParqueaderoException(mensajeConfiguration.getVehiculoCcNoValido());
+			}
+
 			return new Factura(vehiculo.getPlaca(), localDateTimeWrapper.now(), vehiculo.getTipoVehiculo(),
 					vehiculo.getCc());
 		} else {
@@ -109,7 +121,7 @@ public class ParqueaderoHelperImpl implements ParqueaderoHelper {
 			pagoTotal = pagoTotal + ((int) horasRestantes * vehiculo.getValorHora());
 		}
 
-		if (vehiculo.getTipoVehiculo() == TipoVehiculo.MOTO && vehiculo.getCc() > 500) {
+		if (vehiculo.getTipoVehiculo() == TipoVehiculo.MOTO && vehiculo.getCc() > parqueaderoConfiguration.getMaxCcCobro()) {
 			pagoTotal = pagoTotal + 2000;
 		}
 
