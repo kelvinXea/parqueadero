@@ -1,4 +1,4 @@
-package com.ceiba.adn.parqueadero.service;
+package com.ceiba.adn.parqueadero.domain.service;
 
 import com.ceiba.adn.parqueadero.domain.entity.Factura;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;

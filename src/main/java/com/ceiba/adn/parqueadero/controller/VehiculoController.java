@@ -23,19 +23,21 @@ import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
 import com.ceiba.adn.parqueadero.domain.model.dto.FacturaDTO;
 import com.ceiba.adn.parqueadero.domain.model.dto.VehiculoDTO;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
-import com.ceiba.adn.parqueadero.service.ParqueaderoService;
+import com.ceiba.adn.parqueadero.domain.service.ParqueaderoService;
 
-@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4201" })
+//@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4201" })
+@CrossOrigin()
 @RestController
 public class VehiculoController {
 
 	@Autowired
-	ParqueaderoService parqueaderoService;
+	private ParqueaderoService parqueaderoService;
 
 	@Autowired
-	MensajeConfiguration mensajeConfiguration;
+	private MensajeConfiguration mensajeConfiguration;
 
-	ModelMapper modelMapper = new ModelMapper();
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@PostMapping("/vehiculo")
 	public ResponseEntity<String> registrarVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {

@@ -26,8 +26,8 @@ import com.ceiba.adn.parqueadero.domain.model.Moto;
 import com.ceiba.adn.parqueadero.domain.model.Vehiculo;
 import com.ceiba.adn.parqueadero.domain.model.dto.enums.TipoVehiculo;
 import com.ceiba.adn.parqueadero.domain.repository.FacturaRepository;
-import com.ceiba.adn.parqueadero.service.ParqueaderoService;
-import com.ceiba.adn.parqueadero.service.impl.ParqueaderoServiceImpl;
+import com.ceiba.adn.parqueadero.domain.service.ParqueaderoService;
+import com.ceiba.adn.parqueadero.domain.service.impl.ParqueaderoServiceImpl;
 import com.ceiba.adn.parqueadero.utils.LocalDateTimeWrapper;
 
 @RunWith(SpringRunner.class)

@@ -26,6 +26,8 @@ repositories {
 dependencies {
 
 	compile('org.modelmapper:modelmapper:1.1.0')
+	compile 'org.springframework.boot:spring-boot-starter-webflux:2.1.2.RELEASE'
+	compile("org.springframework.boot:spring-boot-starter-websocket")
 	implementation 'org.apache.axis:axis:1.4'
 	implementation 'javax.xml.rpc:javax.xml.rpc-api:1.1.2'
 	implementation 'commons-discovery:commons-discovery:0.5'
